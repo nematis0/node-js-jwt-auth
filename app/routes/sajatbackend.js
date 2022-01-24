@@ -80,6 +80,7 @@ module.exports = function(app) {
 
 
   })
+  
 
   app.post('/tipusok', (req, res) => {
 
@@ -148,6 +149,94 @@ module.exports = function(app) {
     
 
     connection.query('SELECT * from uzenet where uzenet_tipus_id=' + req.body.bevitel1, function (err, rows, fields) {
+
+      if (err) throw err
+
+    
+
+      console.log(rows)
+
+
+
+      res.send(rows)
+
+    })
+
+    
+
+    connection.end()    
+
+
+
+  })
+
+  app.post('/animetorles', (req, res) => {
+
+    var mysql = require('mysql')
+
+    var connection = mysql.createConnection({
+
+      host: 'localhost',
+
+      user: 'root',
+
+      password: '',
+
+      database: 'zarodolgozat'
+
+    })
+
+    
+
+    connection.connect()
+
+    
+
+    connection.query("delete from anime where anime_id=" + req.body.bevitel6, function (err, rows, fields) {
+
+      if (err) throw err
+
+    
+
+      console.log(rows)
+
+
+
+      res.send(rows)
+
+    })
+
+    
+
+    connection.end()    
+
+
+
+  })
+
+  app.post('/uzenettorles', (req, res) => {
+
+    var mysql = require('mysql')
+
+    var connection = mysql.createConnection({
+
+      host: 'localhost',
+
+      user: 'root',
+
+      password: '',
+
+      database: 'zarodolgozat'
+
+    })
+
+    
+
+    connection.connect()
+
+    
+
+    connection.query("delete from uzenet where uzenet_id=" + req.body.bevitel7, function (err, rows, fields) {
 
       if (err) throw err
 
