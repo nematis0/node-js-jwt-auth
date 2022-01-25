@@ -246,7 +246,7 @@ module.exports = function(app) {
 
 
 
-      res.send(rows)
+      res.send("Sikeres törlés")
 
     })
 
@@ -256,6 +256,29 @@ module.exports = function(app) {
 
 
 
+  })
+
+  app.get('/forumkommentfelvitel', (req, res) => {
+    var mysql = require('mysql')
+    var connection = mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      password: '',
+      database: 'zarodolgozat'
+    })
+    
+    connection.connect()
+    
+    connection.query('SELECT * from forumuzenet ORDER BY forum_id DESC ', function (err, rows, fields) {
+      if (err) throw err
+    
+      console.log(rows)
+  
+      res.send(rows)
+    })
+    
+    connection.end()    
+  
   })
   
 };  
