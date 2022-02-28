@@ -10,7 +10,7 @@ module.exports = function(app) {
     );
     next();
   });
-  //-------------------------------------------------Saját backend végpontok-----------------------------------------------------------------------
+//-------------------------------------------------Saját backend-----------------------------------------------------------------------
   app.get('/Animek', (req, res) => {
     var mysql = require('mysql')
     var connection = mysql.createConnection({
@@ -33,188 +33,143 @@ module.exports = function(app) {
     connection.end()    
     
   })
-
+//-------------------------------------------------Saját backend Keresés laphoz-----------------------------------------------------------------------
   app.post('/kereses', (req, res) => {
-
     var mysql = require('mysql')
-
     var connection = mysql.createConnection({
-
       host: 'localhost',
-
       user: 'root',
-
       password: '',
-
       database: 'zarodolgozat'
-
-    })
-
-    
+    }) 
 
     connection.connect()
 
     var feltetel2='anime_cim LIKE "%'+req.body.bevitel4+'%"';
-
-
-
     connection.query('SELECT anime_cim,anime_leiras,anime_kep FROM anime WHERE '+feltetel2, function (err, rows, fields) {
 
       if (err) throw err
 
-    
-
       console.log(rows)
-
-
 
       res.send(rows)
 
     })
 
-    
-
-    
-
     connection.end()    
-
-
 
   })
   
-
+//-------------------------------------------------Saját backend Keresés laphoz tipus gombok-----------------------------------------------------------------------
   app.post('/tipusok', (req, res) => {
-
     var mysql = require('mysql')
-
     var connection = mysql.createConnection({
-
       host: 'localhost',
-
       user: 'root',
-
       password: '',
-
       database: 'zarodolgozat'
 
-    })
-
-    
+    })   
 
     connection.connect()
 
     var feltetel3='anime_tipus LIKE "%'+req.body.bevitel3+'%"';
-
     connection.query('SELECT * from anime WHERE '+feltetel3, function (err, rows, fields) {
 
       if (err) throw err
 
-    
-
       console.log(rows)
-
-
 
       res.send(rows)
 
     })
 
-    
-
     connection.end()    
-
-
 
   })
 
+//-------------------------------------------------Saját backend Keresés laphoz modalban megjelenítés-----------------------------------------------------------------------
   app.post('/animekomment', (req, res) => {
-
     var mysql = require('mysql')
-
     var connection = mysql.createConnection({
-
       host: 'localhost',
-
       user: 'root',
-
       password: '',
-
       database: 'zarodolgozat'
 
     })
-
     
-
     connection.connect()
-
-    
-
+   
     connection.query('SELECT * from uzenet where uzenet_tipus_id=' + req.body.bevitel1, function (err, rows, fields) {
 
       if (err) throw err
 
-    
-
       console.log(rows)
-
-
 
       res.send(rows)
 
     })
 
-    
-
     connection.end()    
-
-
 
   })
 
-  app.get('/animekommentek', (req, res) => {
-
+//-------------------------------------------------Saját backend Anime Trailer-----------------------------------------------------------------------
+  app.get('/animelink', (req, res) => {
     var mysql = require('mysql')
-
     var connection = mysql.createConnection({
-
       host: 'localhost',  
-
       user: 'root',
-
       password: '',
-
       database: 'zarodolgozat'
 
     })
-
-    
-
+  
     connection.connect()
+  
+    connection.query('SELECT anime_id, anime_link from anime WHERE anime_id='+req.body.bevitel1, function (err, rows, fields) {
 
-    
+      if (err) throw err
 
+      console.log(rows)
+
+      res.send(rows)
+
+    })
+
+    connection.end()
+
+  })
+
+//-------------------------------------------------Saját backend-----------------------------------------------------------------------
+  app.get('/animekommentek', (req, res) => {
+    var mysql = require('mysql')
+    var connection = mysql.createConnection({
+      host: 'localhost',  
+      user: 'root',
+      password: '',
+      database: 'zarodolgozat'
+
+    })
+  
+    connection.connect()
+  
     connection.query('SELECT * from uzenet', function (err, rows, fields) {
 
       if (err) throw err
 
-    
-
       console.log(rows)
-
-
 
       res.send(rows)
 
     })
 
-    
-
-    connection.end()    
-
-
+    connection.end()
 
   })
 
+  //-------------------------------------------------Saját backend Adminnak törlés-----------------------------------------------------------------------
   app.post('/animetorles', (req, res) => {
     var mysql = require('mysql')
     var connection = mysql.createConnection({
@@ -225,34 +180,23 @@ module.exports = function(app) {
 
     })
 
-    
-
-    connection.connect()
-
-    
+    connection.connect()   
 
     connection.query("delete from anime where anime_id=" + req.body.bevitel6, function (err, rows, fields) {
 
       if (err) throw err
 
-    
-
       console.log(rows)
-
-
 
       res.send(rows)
 
     })
 
-    
-
     connection.end()    
-
-
 
   })
 
+//-------------------------------------------------Saját backend Adminnak törlés-----------------------------------------------------------------------
   app.post('/uzenettorles', (req, res) => {
     var mysql = require('mysql')
     var connection = mysql.createConnection({
@@ -277,6 +221,7 @@ module.exports = function(app) {
 
   })
 
+//-------------------------------------------------Saját backend Adminnak feltöltés-----------------------------------------------------------------------
   app.post('/animefelvitel', (req, res) => {
     var mysql = require('mysql')
     var connection = mysql.createConnection({
@@ -315,6 +260,7 @@ module.exports = function(app) {
     });
   });
 
+//-------------------------------------------------Saját backend-----------------------------------------------------------------------
   app.get('/forumkommentfelvitel', (req, res) => {
     var mysql = require('mysql')
     var connection = mysql.createConnection({
