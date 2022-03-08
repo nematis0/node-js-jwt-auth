@@ -116,7 +116,7 @@ module.exports = function(app) {
   })
 
 //-------------------------------------------------Saját backend Anime Trailer-----------------------------------------------------------------------
-  app.get('/animelink', (req, res) => {
+  app.post('/animelink', (req, res) => {
     var mysql = require('mysql')
     var connection = mysql.createConnection({
       host: 'localhost',  
@@ -260,28 +260,52 @@ module.exports = function(app) {
     });
   });
 
-//-------------------------------------------------Saját backend-----------------------------------------------------------------------
-  app.get('/forumkommentfelvitel', (req, res) => {
-    var mysql = require('mysql')
-    var connection = mysql.createConnection({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'zarodolgozat'
-    })
-    
-    connection.connect()
-    
-    connection.query('SELECT * from forumuzenet ORDER BY forum_id DESC ', function (err, rows, fields) {
-      if (err) throw err
-    
-      console.log(rows)
-  
-      res.send(rows)
-    })
-    
-    connection.end()    
-  
+//-------------------------------------------------Forumhoz felvitel és lekérés-----------------------------------------------------------------------
+app.post('/forumuzenetfelvitel', (req, res) => {
+  var mysql = require('mysql')
+  var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'zarodolgozat'
   })
+  
+  connection.connect()
+  
+  
+  connection.query("INSERT INTO forumuzenet VALUES (NULL, '"+req.body.bevitel1+"', '"+req.body.bevitel2+"')", function (err, rows, fields) {
+    if (err) throw err
+  
+    console.log("Sikeres feltoltés!")
+
+    res.send("Sikeres feltoltés!")
+  })
+  
+  connection.end()    
+
+})
+
+app.get('/forumuzik', (req, res) => {
+  var mysql = require('mysql')
+  var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'zarodolgozat'
+  })
+  
+  connection.connect()
+  
+  connection.query('SELECT * from forumuzenet ORDER BY forum_id DESC ', function (err, rows, fields) {
+    if (err) throw err
+  
+    console.log(rows)
+
+    res.send(rows)
+  })
+  
+  connection.end()    
+
+})
   
 };  
