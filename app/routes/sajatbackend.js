@@ -143,7 +143,7 @@ module.exports = function(app) {
   })
 
 //-------------------------------------------------Saját backend-----------------------------------------------------------------------
-  app.get('/animekommentek', (req, res) => {
+  app.get('/forumkommentek', (req, res) => {
     var mysql = require('mysql')
     var connection = mysql.createConnection({
       host: 'localhost',  
@@ -155,7 +155,7 @@ module.exports = function(app) {
   
     connection.connect()
   
-    connection.query('SELECT * from uzenet', function (err, rows, fields) {
+    connection.query('SELECT * from forumuzenet', function (err, rows, fields) {
 
       if (err) throw err
 
@@ -188,7 +188,7 @@ module.exports = function(app) {
 
       console.log(rows)
 
-      res.send(rows)
+      res.send("Sikeres törlés")
 
     })
 
@@ -209,7 +209,7 @@ module.exports = function(app) {
 
     connection.connect()
 
-    connection.query("delete from uzenet where uzenet_id=" + req.body.bevitel7, function (err, rows, fields) {
+    connection.query("delete from forumuzenet where forum_id=" + req.body.bevitel7, function (err, rows, fields) {
       if (err) throw err
 
       console.log(rows)
@@ -234,7 +234,7 @@ module.exports = function(app) {
     connection.connect()
     
     
-    connection.query("INSERT INTO anime VALUES (NULL, '"+req.body.bevitel1+"', '"+req.body.bevitel2+"','"+req.body.bevitel3+"','"+req.body.bevitel4+"')", function (err, rows, fields) {
+    connection.query("INSERT INTO anime VALUES (NULL, '"+req.body.bevitel1+"', '"+req.body.bevitel2+"','"+req.body.bevitel3+"','"+req.body.bevitel4+"','"+req.body.bevitel5+"')", function (err, rows, fields) {
       if (err) throw err
     
       console.log("Sikeres feltoltés!")
